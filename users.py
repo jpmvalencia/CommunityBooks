@@ -8,7 +8,7 @@ from PyQt5.QtWidgets import QMainWindow, QLabel, QComboBox, QLineEdit, QWidget, 
     QFormLayout, QPushButton, QVBoxLayout, QSpacerItem, QSizePolicy, QHBoxLayout, QMessageBox
 
 
-class Signin(QMainWindow):
+class Users(QMainWindow):
     def __init__(self, previous):
         super().__init__()
         
@@ -42,7 +42,6 @@ class Signin(QMainWindow):
         self.form_layout = QFormLayout()
 
         # Definir los textos, inputs y botones
-
         # Logo
         self.icon = QPixmap("icon.svg").scaledToHeight(72)
         self.icon_label = QLabel()
@@ -55,15 +54,14 @@ class Signin(QMainWindow):
         self.register_title.setFont(QFont("...", 14))
         self.register_title.setAlignment(Qt.AlignCenter)
 
-        self.blank_space = QLabel("\n")
+        self.blank_space = QLabel("\n") # Espacio en blanco
 
         # Texto y opciones para el tipo de usuario
         self.user_type_text = QLabel()
         self.user_type_text.setText("Tipo de Usuario:")
         self.user_type_text.setFont(QFont("...", 10))
         self.user_type_options = QComboBox()
-        self.user_type_options.setStyleSheet("padding: 7px; border: none; background-color: #1c1f26; "
-                                             "border-radius: 10px;")
+        self.user_type_options.setStyleSheet("padding: 7px; border: none; background-color: #1c1f26; border-radius: 10px;")
         self.user_type_options.setFont(QFont("...", 10))
         self.user_type_options.setFixedWidth(200)
 
@@ -77,8 +75,7 @@ class Signin(QMainWindow):
         self.firstname_text.setText("Nombre:")
         self.firstname_text.setFont(QFont("...", 10))
         self.firstname_input = QLineEdit()
-        self.firstname_input.setStyleSheet("padding: 7px; border: none; background-color: #1c1f26; "
-                                           "border-radius: 10px;")
+        self.firstname_input.setStyleSheet("padding: 7px; border: none; background-color: #1c1f26; border-radius: 10px;")
         self.firstname_input.setFont(QFont("...", 10))
         self.firstname_input.setFixedWidth(200)
 
@@ -96,8 +93,7 @@ class Signin(QMainWindow):
         self.user_sex_text.setText("Sexo:")
         self.user_sex_text.setFont(QFont("...", 10))
         self.user_sex_options = QComboBox()
-        self.user_sex_options.setStyleSheet("padding: 7px; border: none; background-color: #1c1f26; "
-                                            "border-radius: 10px;")
+        self.user_sex_options.setStyleSheet("padding: 7px; border: none; background-color: #1c1f26; border-radius: 10px;")
         self.user_sex_options.setFont(QFont("...", 10))
         self.user_sex_options.setFixedWidth(200)
 
@@ -110,8 +106,7 @@ class Signin(QMainWindow):
         self.doc_type_text.setText("Tipo de Documento:")
         self.doc_type_text.setFont(QFont("...", 10))
         self.doc_type_options = QComboBox()
-        self.doc_type_options.setStyleSheet("padding: 7px; border: none; background-color: #1c1f26; "
-                                            "border-radius: 10px;")
+        self.doc_type_options.setStyleSheet("padding: 7px; border: none; background-color: #1c1f26; border-radius: 10px;")
         self.doc_type_options.setFont(QFont("...", 10))
         self.doc_type_options.setFixedWidth(200)
 
@@ -124,8 +119,7 @@ class Signin(QMainWindow):
         self.doc_number_text.setText("Número de Documento:")
         self.doc_number_text.setFont(QFont("...", 10))
         self.doc_number_input = QLineEdit()
-        self.doc_number_input.setStyleSheet("padding: 7px; border: none; background-color: #1c1f26; border-radius: "
-                                            "10px;")
+        self.doc_number_input.setStyleSheet("padding: 7px; border: none; background-color: #1c1f26; border-radius: 10px;")
         self.doc_number_input.setFont(QFont("...", 10))
         self.doc_number_input.setFixedWidth(200)
 
@@ -143,8 +137,7 @@ class Signin(QMainWindow):
         self.phone_number_text.setText("Número de Celular:")
         self.phone_number_text.setFont(QFont("...", 10))
         self.phone_number_input = QLineEdit()
-        self.phone_number_input.setStyleSheet("padding: 7px; border: none; background-color: #1c1f26; "
-                                              "border-radius: 10px;")
+        self.phone_number_input.setStyleSheet("padding: 7px; border: none; background-color: #1c1f26; border-radius: 10px;")
         self.phone_number_input.setFont(QFont("...", 10))
         self.phone_number_input.setFixedWidth(200)
 
@@ -157,12 +150,12 @@ class Signin(QMainWindow):
         self.back_button.clicked.connect(self.activate_options_window)
 
         # Botón para registrar al usuario
-        self.register_button = QPushButton("Registrar")
-        self.register_button.setFont(QFont("...", 10))
-        self.register_button.setStyleSheet("QPushButton { background-color: #232632; border-radius: 10px; }"
+        self.create_button = QPushButton("Registrar")
+        self.create_button.setFont(QFont("...", 10))
+        self.create_button.setStyleSheet("QPushButton { background-color: #232632; border-radius: 10px; }"
                                            "QPushButton:pressed { background-color: #1c1f26; }")
-        self.register_button.setFixedSize(100, 50)
-        self.register_button.clicked.connect(self.register_user)
+        self.create_button.setFixedSize(100, 50)
+        self.create_button.clicked.connect(self.register_user)
 
         # Botón para cerrar sesión
         self.sign_out_button = QPushButton("Cerrar Sesión")
@@ -187,7 +180,7 @@ class Signin(QMainWindow):
 
         # Agrega los botones al layout horizontal
         self.horizontal_layout.addWidget(self.back_button)
-        self.horizontal_layout.addWidget(self.register_button)
+        self.horizontal_layout.addWidget(self.create_button)
 
         # Centrar los objetos
         # Se crea y define el layout con base a los objetos que agregamos en los layout anteriores
@@ -216,7 +209,7 @@ class Signin(QMainWindow):
         self.user_sex_content = self.user_sex_options.currentText()
         self.doc_type_content = self.doc_type_options.currentText()
     
-
+    # Programar botones
     def register_user(self):
         self.success_message = QMessageBox()
         self.success_message.setIcon(QMessageBox.Warning)
@@ -225,19 +218,23 @@ class Signin(QMainWindow):
         self.success_message.setStandardButtons(QMessageBox.Ok)
         self.success_message.buttonClicked.connect(self.activate_success_message)
 
-        if os.path.isfile("users.csv"):
-            self.df = pd.read_csv("users.csv")
+        # Verifica que exista el archivo de datos, si no, los crea
+        if os.path.isfile("data/users.csv"):
+            self.df = pd.read_csv("data/users.csv")
         else:
             self.df = pd.DataFrame(columns=["Tipo de Usuario","Nombre","Apellido","Sexo","Tipo de Documento","Número de Documento","Correo Electrónico","Número de Celular"])
 
+        # Se obtienen los datos ingresados
         self.data = {"Tipo de Usuario": self.user_type_content, "Nombre": self.firstname_input.text(), "Apellido": self.lastname_input.text(),  "Sexo": self.user_sex_content, "Tipo de Documento": self.doc_type_content, "Número de Documento": self.doc_number_input.text(), "Correo Electrónico": self.email_input.text(), "Número de Celular": self.phone_number_input.text()}
 
-        self.df = self.df.append(self.data, ignore_index=True)
-        
-        self.df.to_csv("users.csv", index=False, mode="w")
+        # Se actualiza los datos con la nueva información ingresada
+        self.df = self.df._append(self.data, ignore_index=True)
+        self.df.to_csv("data/users.csv", index=False, mode="w")
 
+        # Se activa el mensaje de registro exitoso
         self.success_message.exec()
 
+        # Se resetea los input
         self.firstname_input.setText("")
         self.lastname_input.setText("")
         self.doc_number_input.setText("")

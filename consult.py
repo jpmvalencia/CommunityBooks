@@ -1,18 +1,14 @@
 from PyQt5 import QtGui
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QFont, QPixmap
-from PyQt5.QtWidgets import QMainWindow, QPushButton, QDesktopWidget, QWidget, QVBoxLayout, QSpacerItem, \
-    QSizePolicy, QLabel
+from PyQt5.QtWidgets import QMainWindow, QPushButton, QDesktopWidget, QWidget, QVBoxLayout, QSpacerItem, QSizePolicy, QLabel
 
-from books import Books
-from library import Library
-from location import Location
-from signin import Signin
-from booking import Booking
-from masterpage import MasterBooking
+from consultusers import Consult_Users
+from consultbooks import Consult_Books
+from consultbooking import Consult_Booking
 
 
-class C_Options(QMainWindow):
+class Consult(QMainWindow):
     def __init__(self, previous):
         super().__init__()
 
@@ -56,37 +52,22 @@ class C_Options(QMainWindow):
         self.options_title.setFont(QFont("...", 14))
         self.options_title.setAlignment(Qt.AlignCenter)
 
-        self.blank_space = QLabel("\n")
+        self.blank_space = QLabel("\n") # Espacio en blanco
 
         # Definir los botones
-        self.go_to_signin = QPushButton("Usuarios")
-        self.go_to_signin.setFont(QFont("...", 10))
-        self.go_to_signin.setStyleSheet("QPushButton { background-color: #232632; border-radius: 10px; } "
+        self.go_to_users = QPushButton("Usuarios")
+        self.go_to_users.setFont(QFont("...", 10))
+        self.go_to_users.setStyleSheet("QPushButton { background-color: #232632; border-radius: 10px; } "
                                         "QPushButton:pressed { background-color: #1c1f26; } ")
-        self.go_to_signin.setFixedSize(250, 50)
-        self.go_to_signin.clicked.connect(self.activate_signin_window)
+        self.go_to_users.setFixedSize(250, 50)
+        self.go_to_users.clicked.connect(self.activate_users_window)
 
-        # Botones
         self.go_to_book = QPushButton("Libros")
         self.go_to_book.setFont(QFont("...", 10))
         self.go_to_book.setStyleSheet("QPushButton { background-color: #232632; border-radius: 10px; } "
                                       "QPushButton:pressed { background-color: #1c1f26; } ")
         self.go_to_book.setFixedSize(250, 50)
         self.go_to_book.clicked.connect(self.activate_book_window)
-
-        self.go_to_location = QPushButton("Ubicaciones")
-        self.go_to_location.setFont(QFont("...", 10))
-        self.go_to_location.setStyleSheet("QPushButton { background-color: #232632; border-radius: 10px; } "
-                                          "QPushButton:pressed { background-color: #1c1f26; } ")
-        self.go_to_location.setFixedSize(250, 50)
-        self.go_to_location.clicked.connect(self.activate_location_window)
-
-        self.go_to_library = QPushButton("Registrar Librería")
-        self.go_to_library.setFont(QFont("...", 10))
-        self.go_to_library.setStyleSheet("QPushButton { background-color: #232632; border-radius: 10px; } "
-                                         "QPushButton:pressed { background-color: #1c1f26; } ")
-        self.go_to_library.setFixedSize(250, 50)
-        self.go_to_library.clicked.connect(self.activate_library_window)
 
         self.go_to_booking = QPushButton("Reservas")
         self.go_to_booking.setFont(QFont("...", 10))
@@ -95,33 +76,23 @@ class C_Options(QMainWindow):
         self.go_to_booking.setFixedSize(250, 50)
         self.go_to_booking.clicked.connect(self.activate_booking_window)
 
-        self.go_to_booking_masterpage = QPushButton("Maestro Reservas")
-        self.go_to_booking_masterpage.setFont(QFont("...", 10))
-        self.go_to_booking_masterpage.setStyleSheet("QPushButton { background-color: #232632; border-radius: 10px; } "
-                                         "QPushButton:pressed { background-color: #1c1f26; } ")
-        self.go_to_booking_masterpage.setFixedSize(250, 50)
-        self.go_to_booking_masterpage.clicked.connect(self.activate_masterpage_window)
-
-        self.back_button = QPushButton("Cerrar Sesión")
-        self.back_button.setFont(QFont("...", 10))
-        self.back_button.setStyleSheet("QPushButton { background-color: #232632; border-radius: 10px; } "
-                                         "QPushButton:pressed { background-color: #1c1f26; } ")
-        self.back_button.setFixedSize(150, 50)
-        self.back_button.clicked.connect(self.activate_crud_options)
+        self.previous_button = QPushButton("Atrás")
+        self.previous_button.setFont(QFont("...", 10))
+        self.previous_button.setStyleSheet("QPushButton { background-color: #232632; border-radius: 10px; } "
+                                           "QPushButton:pressed { background-color: #1c1f26; } ")
+        self.previous_button.setFixedSize(150, 50)
+        self.previous_button.clicked.connect(self.activate_previous_window)
 
         # Agrega el título y los botones al layout vertical
         self.vertical1.addWidget(self.icon_label, alignment=Qt.AlignCenter)
         self.vertical1.addWidget(self.options_title)
         self.vertical1.addWidget(self.blank_space)
-        self.vertical1.addWidget(self.go_to_signin)
+        self.vertical1.addWidget(self.go_to_users)
         self.vertical1.addWidget(self.go_to_book)
-        self.vertical1.addWidget(self.go_to_location)
-        #self.vertical1.addWidget(self.go_to_library)
         self.vertical1.addWidget(self.go_to_booking)
-        self.vertical1.addWidget(self.go_to_booking_masterpage)
 
         # Agrega el botón de regresar estándo separado de los demás
-        self.vertical2.addWidget(self.back_button)
+        self.vertical2.addWidget(self.previous_button)
 
         # Centrar los objetos
         # Se crea y define el layout con base a los botones que agregamos en el layout vertical
@@ -145,36 +116,21 @@ class C_Options(QMainWindow):
         self.setCentralWidget(self.central_widget)
 
     # Programar los botones
-    def activate_signin_window(self):
-        self.signin_window = Signin(self)
-        self.signin_window.show()
+    def activate_users_window(self):
+        self.users_window = Consult_Users(self)
+        self.users_window.show()
         self.close()
 
     def activate_book_window(self):
-        self.book_window = Books(self)
+        self.book_window = Consult_Books(self)
         self.book_window.show()
         self.close()
 
-    def activate_location_window(self):
-        self.location_window = Location(self)
-        self.location_window.show()
-        self.close()
-
-    def activate_library_window(self):
-        self.library_window = Library(self)
-        self.library_window.show()
-        self.close()
-
     def activate_booking_window(self):
-        self.booking_window = Booking(self)
+        self.booking_window = Consult_Booking(self)
         self.booking_window.show()
         self.close()
-        
-    def activate_masterpage_window(self):
-        self.master_booking_window = MasterBooking(self)
-        self.master_booking_window.show()
-        self.close()
 
-    def activate_crud_options(self):
+    def activate_previous_window(self):
         self.previous_window.show()
         self.close()
