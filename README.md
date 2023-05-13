@@ -7,11 +7,11 @@ git clone https://github.com/jpmvalencia/CommunityBooks.git
 ```
 
 ## Dependencias
-### Python
-[Python Downloads](https://www.python.org/downloads/ "Python Downlaods")
-
 ### Git
 [Git Downloads](https://git-scm.com/downloads/ "Git Downloads")
+
+### Python
+[Python Downloads](https://www.python.org/downloads/ "Python Downlaods")
 
 ### PyQt5
 ```python
