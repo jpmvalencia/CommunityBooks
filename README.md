@@ -1,7 +1,6 @@
 # CommunityBooks
 
 ## Dependencias
-
 ### Python
 [Python Downloads](https://www.python.org/downloads/ "Python Downlaods")
 
@@ -14,3 +13,5 @@ pip install PyQt5
 ```python
 pip install pandas
 ```
+
+Se recomienda la creación de un entorno virtual para la instalación de PyQt5 y pandas.
