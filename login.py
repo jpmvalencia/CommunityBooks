@@ -1,11 +1,9 @@
 from PyQt5 import QtGui
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QFont, QPixmap
-from PyQt5.QtWidgets import QApplication, QMainWindow, QDesktopWidget, QLineEdit, QWidget, \
-    QVBoxLayout, QGridLayout, QLabel, QPushButton, QMessageBox
+from PyQt5.QtWidgets import QApplication, QMainWindow, QDesktopWidget, QLineEdit, QWidget, QVBoxLayout, QGridLayout, QLabel, QPushButton, QMessageBox
 
-from crud_options import CRUD_Options
-from c_options import C_Options
+from createconsult import Create_Consult
 
 
 class Login(QMainWindow):
@@ -109,7 +107,7 @@ class Login(QMainWindow):
             if self.password_input.text() == self.psswd:
                 self.user_input.setText("")
                 self.password_input.setText("")
-                self.options_window = C_Options(self)
+                self.options_window = Create_Consult(self)
                 self.options_window.show()
                 self.hide()
             else:

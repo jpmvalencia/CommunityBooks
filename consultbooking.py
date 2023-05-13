@@ -1,38 +1,41 @@
-from PyQt5.QtWidgets import QApplication, QMainWindow, QTableWidget, QTableWidgetItem, QDesktopWidget, QMessageBox, QVBoxLayout, QWidget, QToolBar, QAction
+from PyQt5.QtWidgets import QMainWindow, QTableWidget, QTableWidgetItem, QDesktopWidget, QMessageBox, QVBoxLayout, QWidget
 from PyQt5 import QtWidgets, QtGui, QtCore, Qt
 from PyQt5.QtCore import Qt
 import csv
-import sys
 
 
-class MasterBooking(QMainWindow):
+class Consult_Booking(QMainWindow):
     def __init__(self, previous):
         super().__init__()
         
         # Icono de la ventana
         self.setWindowIcon(QtGui.QIcon("icon.svg"))
 
+        # Guardar en una variable la ventana anterior
         self.previous_window = previous
+
+        # Titulo de la ventana
         self.setWindowTitle("Reserva")
 
+        # Color de fondo y color de letras
         self.setStyleSheet("background-color: #2a2d37; color: #c0c5ce;")
 
+        # Establecer propiedades de ancho y alto
         self.width = 1280
         self.height = 720
 
+        # Establecer el tamaño de la ventana
         self.resize(self.width, self.height)
 
+        # Centrar la ventana
         self.screen = self.frameGeometry()
         self.center = QDesktopWidget().availableGeometry().center()
         self.screen.moveCenter(self.center)
         self.move(self.screen.topLeft())
 
-        # Creamos la tabla
+        # Establecer los layout para el contenido
         table = QTableWidget()
         self.setCentralWidget(table)
-
-        # Creamos la tabla
-        table = QTableWidget()
 
         self.table = table
         self.table.setStyleSheet("""
@@ -105,7 +108,7 @@ class MasterBooking(QMainWindow):
             }
         """)
 
-        table.setMinimumSize(650, 500)
+        table.setMinimumSize(700, 500)
         table.setStyleSheet("QTableView {border: 1px solid #1c1f26;}"
                             "QTableWidget {border-radius: 10px;}")
 
@@ -118,7 +121,7 @@ class MasterBooking(QMainWindow):
         self.setCentralWidget(table_widget)
 
         # Cargamos los datos del archivo CSV
-        with open('reserved_books.csv', newline='', encoding='utf-8') as csvfile:
+        with open('data/reserved_books.csv', newline='', encoding='utf-8') as csvfile:
             data = list(csv.reader(csvfile))
 
         # Establecemos el número de filas y columnas en la tabla
@@ -148,49 +151,48 @@ class MasterBooking(QMainWindow):
         headers = ['Número de Documento', 'ISBN', 'Fecha de Reserva', 'Fecha de Entrega', 'Estado']
         table.setHorizontalHeaderLabels(headers)
 
+        # Agregar un QPushButton para eliminar fila
+        self.delete_button = QtWidgets.QPushButton("Eliminar fila", self)
+        self.delete_button.setStyleSheet("QPushButton { background-color: #232632; border-radius: 10px; }"
+                                         "QPushButton:pressed { background-color: #1c1f26; }")
+        self.delete_button.setFixedSize(150, 50)
+        self.delete_button.clicked.connect(self.delete_row)
+
         # Agregar un QLineEdit y un QPushButton para buscar
         self.search_line_edit = QtWidgets.QLineEdit(self)
         self.search_line_edit.setFixedSize(700, 50)
         self.search_line_edit.setPlaceholderText("Buscar")
         self.search_line_edit.setStyleSheet("padding: 7px; border: none; background-color: #1c1f26; "
-                                      "border-radius: 10px;")
+                                            "border-radius: 10px;")
         self.search_line_edit.returnPressed.connect(self.search)
         self.search_button = QtWidgets.QPushButton("Buscar", self)
         self.search_button.setStyleSheet("QPushButton { background-color: #232632; border-radius: 10px; }"
-                                           "QPushButton:pressed { background-color: #1c1f26; }")
+                                         "QPushButton:pressed { background-color: #1c1f26; }")
         self.search_button.setFixedSize(150, 50)
         self.search_button.clicked.connect(self.search)
 
 
-        self.back_button = QtWidgets.QPushButton("Atrás", self)
-        self.back_button.setStyleSheet("QPushButton { background-color: #232632; border-radius: 10px; }"
-                                           "QPushButton:pressed { background-color: #1c1f26; }")
-        self.back_button.setFixedSize(150, 50)
-        self.back_button.clicked.connect(self.back)
+        self.previous_button = QtWidgets.QPushButton("Atrás", self)
+        self.previous_button.setStyleSheet("QPushButton { background-color: #232632; border-radius: 10px; }"
+                                       "QPushButton:pressed { background-color: #1c1f26; }")
+        self.previous_button.setFixedSize(150, 50)
+        self.previous_button.clicked.connect(self.activate_previous_window)
 
         spacer = QtWidgets.QWidget(self)
         spacer.setSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
 
-        # Crear la barra de herramientas
-        toolbar = QToolBar("Toolbar")
-        self.addToolBar(toolbar)
-
-        # Agregar botón para eliminar fila
-        delete_button = QAction("Eliminar fila", self)
-
-        delete_button.triggered.connect(self.delete_row)
-        toolbar.addAction(delete_button)
-        #self.addToolBar(Qt.RightToolBarArea, toolbar)
-
         # Agregar los widgets a la barra de herramientas
         self.toolbar = QtWidgets.QToolBar(self)
         self.addToolBar(QtCore.Qt.TopToolBarArea, self.toolbar)
+        self.toolbar.addWidget(self.delete_button)
+        self.toolbar.addSeparator()
         self.toolbar.addWidget(self.search_line_edit)
         self.toolbar.addSeparator()
         self.toolbar.addWidget(self.search_button)
         self.toolbar.addWidget(spacer)
-        self.toolbar.addWidget(self.back_button)
+        self.toolbar.addWidget(self.previous_button)
 
+    # Programar los botones
     def delete_row(self):
         # Obtener la fila seleccionada
         row = self.table.currentRow()
@@ -201,7 +203,7 @@ class MasterBooking(QMainWindow):
         # Guardar los datos actualizados en el archivo CSV
         self.save_data_to_csv()
 
-    def back(self):
+    def activate_previous_window(self):
         self.previous_window.show()
         self.close()
 
@@ -248,7 +250,7 @@ class MasterBooking(QMainWindow):
             data.append(row_data)
 
         # Guardar los datos en el archivo CSV
-        with open('reserved_books.csv', 'w', newline='', encoding='utf-8') as csvfile:
+        with open('data/reserved_books.csv', 'w', newline='', encoding='utf-8') as csvfile:
             writer = csv.writer(csvfile)
             writer.writerows(data)
 
