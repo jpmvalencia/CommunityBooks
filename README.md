@@ -6,11 +6,11 @@
 [Python Downloads](https://www.python.org/downloads/ "Python Downlaods")
 
 ### PyQt5
-'''python
+```python
 pip install PyQt5
-'''
+```
 
 ### Pandas
-'''python
+```python
 pip install pandas
-'''
+```
