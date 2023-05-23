@@ -87,7 +87,7 @@ class Create(QMainWindow):
         self.vertical1.addWidget(self.icon_label, alignment=Qt.AlignCenter)
         self.vertical1.addWidget(self.options_title)
         self.vertical1.addWidget(self.blank_space)
-        self.vertical1.addWidget(self.go_to_users)
+        #self.vertical1.addWidget(self.go_to_users)
         self.vertical1.addWidget(self.go_to_book)
         self.vertical1.addWidget(self.go_to_booking)
 
