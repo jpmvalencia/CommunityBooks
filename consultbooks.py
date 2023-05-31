@@ -192,16 +192,33 @@ class Consult_Books(QMainWindow):
         self.toolbar.addWidget(spacer)
         self.toolbar.addWidget(self.previous_button)
 
-    # Programar los botones
     def delete_row(self):
-        # Obtener la fila seleccionada
-        row = self.table.currentRow()
+        # Obtener el ISBN del libro seleccionado
+        isbn = self.table.item(self.table.currentRow(), 0).text()
 
-        # Eliminar la fila seleccionada
-        self.table.removeRow(row)
+        # Verificar si el ISBN del libro existe en el archivo reserved_books.csv
+        if self.isbn_exists(isbn):
+            # Mostrar ventana de error
+            error_message = QMessageBox()
+            error_message.setIcon(QMessageBox.Critical)
+            error_message.setWindowTitle("Error")
+            error_message.setText("El libro está reservado y no se puede eliminar.")
+            error_message.exec_()
+        else:
+            # Eliminar la fila seleccionada
+            self.table.removeRow(self.table.currentRow())
 
-        # Guardar los datos actualizados en el archivo CSV
-        self.save_data_to_csv()
+            # Guardar los datos actualizados en el archivo CSV
+            self.save_data_to_csv()
+
+    # Función para verificar si un ISBN existe en el archivo reserved_books.csv
+    def isbn_exists(self, isbn):
+        with open('data/reserved_books.csv', 'r') as file:
+            reader = csv.reader(file)
+            for row in reader:
+                if isbn == row[1]:
+                    return True
+        return False
 
     def activate_previous_window(self):
         self.previous_window.show()
