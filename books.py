@@ -18,7 +18,7 @@ class Books(QMainWindow):
         self.previous_window = previous
 
         # Titulo de la ventana
-        self.setWindowTitle("Libros")
+        self.setWindowTitle("Registrar Libros | CommunityBooks")
 
         # Color de fondo y color de letras
         self.setStyleSheet("background-color: #2a2d37; color: #c0c5ce;")

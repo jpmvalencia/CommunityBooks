@@ -18,7 +18,7 @@ class Booking(QMainWindow):
         self.previous_window = previous
 
         # Titulo de la ventana
-        self.setWindowTitle("Reserva")
+        self.setWindowTitle("Registrar Reservas | CommunityBooks")
 
         # Color de fondo y color de letras
         self.setStyleSheet("background-color: #2a2d37; color: #c0c5ce;")
