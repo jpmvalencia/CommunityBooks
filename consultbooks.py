@@ -9,16 +9,16 @@ class Consult_Books(QMainWindow):
         super().__init__()
         
         # Icono de la ventana
-        self.setWindowIcon(QtGui.QIcon("icon.svg"))
+        self.setWindowIcon(QtGui.QIcon("icon.png"))
 
         # Guardar en una variable la ventana anterior
         self.previous_window = previous
 
         # Titulo de la ventana
-        self.setWindowTitle("Reserva")
+        self.setWindowTitle("Consultar Libros | CommunityBooks")
 
         # Color de fondo y color de letras
-        self.setStyleSheet("background-color: #2a2d37; color: #c0c5ce;")
+        self.setStyleSheet("background-color: #F6F7F9; color: #646B7A;")
 
         # Establecer propiedades de ancho y alto
         self.width = 1280
@@ -108,8 +108,8 @@ class Consult_Books(QMainWindow):
             }
         """)
 
-        table.setMinimumSize(640, 500)
-        table.setStyleSheet("QTableView {border: 1px solid #1c1f26;}"
+        table.setMinimumSize(900, 500)
+        table.setStyleSheet("QTableView {border: 1px solid #E4E7EB;}"
                             "QTableWidget {border-radius: 10px;}")
 
         # Creamos un objeto QWidget que contenga la tabla
@@ -120,21 +120,28 @@ class Consult_Books(QMainWindow):
         # Establecer self.table_widget como el widget central de la ventana
         self.setCentralWidget(table_widget)
 
-        # Cargamos los datos del archivo CSV
-        with open('data/books.csv', newline='', encoding='utf-8') as csvfile:
-            data = list(csv.reader(csvfile))
+        # Leer los datos del archivo de texto
+        file_path = "data/books_data.txt"  # Ruta del archivo de texto
+        book_data = []
+        with open(file_path, "r", encoding="utf-8") as file:
+            for line in file:
+                data = line.strip().split("\t")
+                book_data.append(data)
 
-        # Establecemos el número de filas y columnas en la tabla
-        table.setRowCount(len(data))
-        table.setColumnCount(len(data[0]))
+        # Verificar si hay datos en book_data
+        if book_data:
+            # Establecemos el número de filas y columnas en la tabla
+            self.table.setRowCount(len(book_data))
+            self.table.setColumnCount(len(book_data[0]))
+
+            # Agregar los datos a la tabla
+            for row in range(len(book_data)):
+                for col in range(len(book_data[row])):
+                    item = QTableWidgetItem(book_data[row][col])
+                    self.table.setItem(row, col, item)
 
         # Ocultamos las cabeceras de la tabla
         table.horizontalHeader().setVisible(True)
-
-        # Rellenamos la tabla con los datos del archivo CSV
-        for i, row in enumerate(data):
-            for j, item in enumerate(row):
-                table.setItem(i, j, QTableWidgetItem(item))
         
         # Ajustar el tamaño de las columnas y filas al contenido
         table.resizeColumnsToContents()
@@ -148,13 +155,13 @@ class Consult_Books(QMainWindow):
         table.cellDoubleClicked.connect(self.editCell)
 
         # Cambiar el texto de las cabeceras de la tabla
-        headers = ['ISBN', 'Nombre', 'Autor', 'Año', 'Género']
+        headers = ['ID', 'Título', 'Autor', 'Año', 'Género']
         table.setHorizontalHeaderLabels(headers)
 
         # Agregar un QPushButton para eliminar fila
         self.delete_button = QtWidgets.QPushButton("Eliminar fila", self)
-        self.delete_button.setStyleSheet("QPushButton { background-color: #232632; border-radius: 10px; }"
-                                         "QPushButton:pressed { background-color: #1c1f26; }")
+        self.delete_button.setStyleSheet("QPushButton { background-color: #F0F2F5; border-radius: 10px; }"
+                                         "QPushButton:pressed { background-color: #E4E7EB; }")
         self.delete_button.setFixedSize(150, 50)
         self.delete_button.clicked.connect(self.delete_row)
 
@@ -162,19 +169,19 @@ class Consult_Books(QMainWindow):
         self.search_line_edit = QtWidgets.QLineEdit(self)
         self.search_line_edit.setFixedSize(700, 50)
         self.search_line_edit.setPlaceholderText("Buscar")
-        self.search_line_edit.setStyleSheet("padding: 7px; border: none; background-color: #1c1f26; "
+        self.search_line_edit.setStyleSheet("padding: 7px; border: none; background-color: #E4E7EB; "
                                             "border-radius: 10px;")
         self.search_line_edit.returnPressed.connect(self.search)
         self.search_button = QtWidgets.QPushButton("Buscar", self)
-        self.search_button.setStyleSheet("QPushButton { background-color: #232632; border-radius: 10px; }"
-                                         "QPushButton:pressed { background-color: #1c1f26; }")
+        self.search_button.setStyleSheet("QPushButton { background-color: #F0F2F5; border-radius: 10px; }"
+                                         "QPushButton:pressed { background-color: #E4E7EB; }")
         self.search_button.setFixedSize(150, 50)
         self.search_button.clicked.connect(self.search)
 
 
         self.previous_button = QtWidgets.QPushButton("Atrás", self)
-        self.previous_button.setStyleSheet("QPushButton { background-color: #232632; border-radius: 10px; }"
-                                       "QPushButton:pressed { background-color: #1c1f26; }")
+        self.previous_button.setStyleSheet("QPushButton { background-color: #F0F2F5; border-radius: 10px; }"
+                                       "QPushButton:pressed { background-color: #E4E7EB; }")
         self.previous_button.setFixedSize(150, 50)
         self.previous_button.clicked.connect(self.activate_previous_window)
 
@@ -192,33 +199,47 @@ class Consult_Books(QMainWindow):
         self.toolbar.addWidget(spacer)
         self.toolbar.addWidget(self.previous_button)
 
+    # Programar los botones
     def delete_row(self):
-        # Obtener el ISBN del libro seleccionado
-        isbn = self.table.item(self.table.currentRow(), 0).text()
+        # Obtener la fila seleccionada
+        selected_row = self.table.currentRow()
 
-        # Verificar si el ISBN del libro existe en el archivo reserved_books.csv
-        if self.isbn_exists(isbn):
-            # Mostrar ventana de error
-            error_message = QMessageBox()
-            error_message.setIcon(QMessageBox.Critical)
-            error_message.setWindowTitle("Error")
-            error_message.setText("El libro está reservado y no se puede eliminar.")
-            error_message.exec_()
+        # Verificar si hay una fila seleccionada
+        if selected_row >= 0:
+            # Mostrar un cuadro de diálogo de confirmación
+            confirm_dialog = QMessageBox.question(
+                self, "Confirmar Eliminación",
+                "¿Estás seguro de que deseas eliminar la fila seleccionada?",
+                QMessageBox.Yes | QMessageBox.No,
+                QMessageBox.No
+            )
+
+            if confirm_dialog == QMessageBox.Yes:
+                # Eliminar la fila de la tabla
+                self.table.removeRow(selected_row)
+
+                # Guardar los datos actualizados en el archivo de texto
+                file_path = "data/books_data.txt"  # Ruta del archivo de texto
+                with open(file_path, "w", encoding="utf-8") as file:
+                    for row in range(self.table.rowCount()):
+                        row_data = []
+                        for col in range(self.table.columnCount()):
+                            item = self.table.item(row, col)
+                            if item is not None:
+                                row_data.append(item.text())
+                            else:
+                                row_data.append("")
+                        line = "\t".join(row_data) + "\n"
+                        file.write(line)
+
+                # Mostrar un mensaje de éxito
+                QMessageBox.information(self, "Eliminación Exitosa", "La fila ha sido eliminada exitosamente.")
+            else:
+                # Mostrar un mensaje de cancelación
+                QMessageBox.information(self, "Cancelado", "La eliminación de la fila ha sido cancelada.")
         else:
-            # Eliminar la fila seleccionada
-            self.table.removeRow(self.table.currentRow())
-
-            # Guardar los datos actualizados en el archivo CSV
-            self.save_data_to_csv()
-
-    # Función para verificar si un ISBN existe en el archivo reserved_books.csv
-    def isbn_exists(self, isbn):
-        with open('data/reserved_books.csv', 'r') as file:
-            reader = csv.reader(file)
-            for row in reader:
-                if isbn == row[1]:
-                    return True
-        return False
+            # Mostrar un mensaje de error si no hay una fila seleccionada
+            QMessageBox.warning(self, "Error", "No se ha seleccionado ninguna fila.")
 
     def activate_previous_window(self):
         self.previous_window.show()
@@ -245,29 +266,64 @@ class Consult_Books(QMainWindow):
         QMessageBox.information(self, "Buscar", f"No se encontró '{text_to_search}'.")
 
     def editCell(self, row, col):
-        # Obtener el valor actual de la celda
-        current_value = self.table.item(row, col).text()
+        # Verificar si la columna es igual a 0 (ID)
+        if col == 0:
+            return
 
-        # Crear un cuadro de diálogo para editar el valor de la celda
-        new_value, ok = QtWidgets.QInputDialog.getText(self, "Editar valor", "Ingrese el nuevo valor:", text=current_value)
+        # Obtener el item de la celda seleccionada
+        item = self.table.item(row, col)
 
-        # Actualizar el valor de la celda si se hace clic en "Aceptar" en el cuadro de diálogo
-        if ok:
-            self.table.setItem(row, col, QTableWidgetItem(new_value))
-            self.save_data_to_csv()
+        # Verificar si hay un item válido
+        if item is not None:
+            # Mostrar el cuadro de diálogo de edición
+            text, ok = QtWidgets.QInputDialog.getText(
+                self, "Editar Celda",
+                "Ingrese el nuevo valor:",
+                QtWidgets.QLineEdit.Normal,
+                item.text()
+            )
 
-    def save_data_to_csv(self):
-        # Obtener los datos de la tabla
-        data = []
-        for i in range(self.table.rowCount()):
-            row_data = []
-            for j in range(self.table.columnCount()):
-                item = self.table.item(i, j)
-                row_data.append(item.text())
-            data.append(row_data)
+            # Verificar si se presionó el botón "Aceptar" en el cuadro de diálogo de edición
+            if ok and text:
+                # Validar el nuevo valor ingresado
+                if col == 3:  # Validar año
+                    if not text.isnumeric():
+                        QMessageBox.warning(self, "Error", "El año del libro debe ser numérico.")
+                        return
+                elif col == 4:  # Validar género
+                    if text.isnumeric():
+                        QMessageBox.warning(self, "Error", "El género solo debe contener letras.")
+                        return
+                elif col == 2:  # Validar autor
+                    if text.isnumeric():
+                        QMessageBox.warning(self, "Error", "El autor solo debe contener letras.")
+                        return
 
-        # Guardar los datos en el archivo CSV
-        with open('data/books.csv', 'w', newline='', encoding='utf-8') as csvfile:
-            writer = csv.writer(csvfile)
-            writer.writerows(data)
+                # Mostrar un cuadro de diálogo de confirmación
+                confirm_dialog = QMessageBox.question(
+                    self, "Confirmar Cambio",
+                    "¿Estás seguro de que deseas aplicar los cambios?",
+                    QMessageBox.Yes | QMessageBox.No,
+                    QMessageBox.No
+                )
 
+                if confirm_dialog == QMessageBox.Yes:
+                    # Actualizar los datos en la tabla
+                    item.setText(text)
+
+                    # Guardar los datos actualizados en el archivo de texto
+                    file_path = "data/books_data.txt"  # Ruta del archivo de texto
+                    with open(file_path, "w", encoding="utf-8") as file:
+                        for row in range(self.table.rowCount()):
+                            row_data = []
+                            for col in range(self.table.columnCount()):
+                                cell_item = self.table.item(row, col)
+                                row_data.append(cell_item.text())
+                            line = "\t".join(row_data) + "\n"
+                            file.write(line)
+
+                    # Mostrar un mensaje de éxito
+                    QMessageBox.information(self, "Edición Exitosa", "El cambio ha sido aplicado exitosamente.")
+                else:
+                    # Mostrar un mensaje de cancelación
+                    QMessageBox.information(self, "Cancelado", "La edición ha sido cancelada.")

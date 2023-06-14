@@ -3,7 +3,7 @@ from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QFont, QPixmap
 from PyQt5.QtWidgets import QApplication, QMainWindow, QDesktopWidget, QLineEdit, QWidget, QVBoxLayout, QGridLayout, QLabel, QPushButton, QMessageBox
 
-from createconsult import Create_Consult
+from options import Options
 
 
 class Login(QMainWindow):
@@ -11,7 +11,7 @@ class Login(QMainWindow):
         super().__init__()
 
         # Icono de la ventana
-        self.setWindowIcon(QtGui.QIcon("icon.svg"))
+        self.setWindowIcon(QtGui.QIcon("icon.png"))
 
         # Titulo de la ventana
         self.setWindowTitle("CommunityBooks")
@@ -20,7 +20,7 @@ class Login(QMainWindow):
         self.psswd = "admin"
 
         # Color de fondo y color de letras
-        self.setStyleSheet("background-color: #2a2d37; color: #c0c5ce;")
+        self.setStyleSheet("background-color: #F6F7F9; color: #646B7A;")
 
         # Establecer propiedades de ancho y alto
         self.width = 1280
@@ -37,7 +37,7 @@ class Login(QMainWindow):
 
         # Definir los textos, inputs y botones
         # Logo
-        self.icon = QPixmap("icon.svg").scaledToHeight(128)
+        self.icon = QPixmap("icon.png").scaledToHeight(128)
         self.icon_label = QLabel()
         self.icon_label.setPixmap(self.icon)
         
@@ -51,14 +51,14 @@ class Login(QMainWindow):
         # Input para el usuario
         self.user_input = QLineEdit()
         self.user_input.setPlaceholderText("Usuario")
-        self.user_input.setStyleSheet("border: none; background-color: #1c1f26; border-radius: 10px; padding: 7px;")
+        self.user_input.setStyleSheet("border: none; background-color: #E4E7EB; border-radius: 10px; padding: 7px;")
         self.user_input.setFont(QFont("...", 10))
         self.user_input.setFixedSize(200, 50)
 
         # Input para la contraseña
         self.password_input = QLineEdit()
         self.password_input.setPlaceholderText("Contraseña")
-        self.password_input.setStyleSheet("border: none; background-color: #1c1f26; border-radius: 10px; "
+        self.password_input.setStyleSheet("border: none; background-color: #E4E7EB; border-radius: 10px; "
                                           "padding: 7px;")
         self.password_input.setFont(QFont("...", 10))
         self.password_input.setEchoMode(QLineEdit.Password)
@@ -68,8 +68,8 @@ class Login(QMainWindow):
         # Botón para ingresar
         self.login_button = QPushButton("Iniciar Sesión")
         self.login_button.setFont(QFont("...", 10))
-        self.login_button.setStyleSheet("QPushButton { background-color: #232632; border-radius: 10px; } "
-                                        "QPushButton:pressed { background-color: #1c1f26; } ")
+        self.login_button.setStyleSheet("QPushButton { background-color: #F0F2F5; border-radius: 10px; } "
+                                        "QPushButton:pressed { background-color: #E4E7EB; } ")
         self.login_button.setFixedSize(150, 50)
         self.login_button.clicked.connect(self.activate_options_window)
 
@@ -107,7 +107,7 @@ class Login(QMainWindow):
             if self.password_input.text() == self.psswd:
                 self.user_input.setText("")
                 self.password_input.setText("")
-                self.options_window = Create_Consult(self)
+                self.options_window = Options(self)
                 self.options_window.show()
                 self.hide()
             else:
