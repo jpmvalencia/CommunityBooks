@@ -3,26 +3,26 @@ from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QFont, QPixmap
 from PyQt5.QtWidgets import QMainWindow, QPushButton, QDesktopWidget, QWidget, QVBoxLayout, QSpacerItem, QSizePolicy, QLabel
 
-from consultusers import Consult_Users
-from consultbooks import Consult_Books
-from consultbooking import Consult_Booking
+from books import Books
+from users import Users
+from booking import Booking
 
 
-class Consult(QMainWindow):
+class Options(QMainWindow):
     def __init__(self, previous):
         super().__init__()
 
         # Icono de la ventana
-        self.setWindowIcon(QtGui.QIcon("icon.svg"))
+        self.setWindowIcon(QtGui.QIcon("icon.png"))
 
         # Guardar en una variable la ventana anterior
         self.previous_window = previous
 
         # Titulo de la ventana
-        self.setWindowTitle("Consultar | CommunityBooks")
+        self.setWindowTitle("CommunityBooks")
 
         # Color de fondo y color de letras
-        self.setStyleSheet("background-color: #2a2d37; color: #c0c5ce;")
+        self.setStyleSheet("background-color: #F6F7F9; color: #646B7A;")
 
         # Establecer propiedades de ancho y alto
         self.width = 1280
@@ -42,7 +42,7 @@ class Consult(QMainWindow):
         self.vertical2 = QVBoxLayout()
         
         # Logo
-        self.icon = QPixmap("icon.svg").scaledToHeight(72)
+        self.icon = QPixmap("icon.png").scaledToHeight(72)
         self.icon_label = QLabel()
         self.icon_label.setPixmap(self.icon)
 
@@ -57,29 +57,29 @@ class Consult(QMainWindow):
         # Definir los botones
         self.go_to_users = QPushButton("Usuarios")
         self.go_to_users.setFont(QFont("...", 10))
-        self.go_to_users.setStyleSheet("QPushButton { background-color: #232632; border-radius: 10px; } "
-                                        "QPushButton:pressed { background-color: #1c1f26; } ")
+        self.go_to_users.setStyleSheet("QPushButton { background-color: #F0F2F5; border-radius: 10px; } "
+                                        "QPushButton:pressed { background-color: #E4E7EB; } ")
         self.go_to_users.setFixedSize(250, 50)
         self.go_to_users.clicked.connect(self.activate_users_window)
 
         self.go_to_book = QPushButton("Libros")
         self.go_to_book.setFont(QFont("...", 10))
-        self.go_to_book.setStyleSheet("QPushButton { background-color: #232632; border-radius: 10px; } "
-                                      "QPushButton:pressed { background-color: #1c1f26; } ")
+        self.go_to_book.setStyleSheet("QPushButton { background-color: #F0F2F5; border-radius: 10px; } "
+                                      "QPushButton:pressed { background-color: #E4E7EB; } ")
         self.go_to_book.setFixedSize(250, 50)
         self.go_to_book.clicked.connect(self.activate_book_window)
 
-        self.go_to_booking = QPushButton("Reservas")
+        self.go_to_booking = QPushButton("Préstamos")
         self.go_to_booking.setFont(QFont("...", 10))
-        self.go_to_booking.setStyleSheet("QPushButton { background-color: #232632; border-radius: 10px; } "
-                                         "QPushButton:pressed { background-color: #1c1f26; } ")
+        self.go_to_booking.setStyleSheet("QPushButton { background-color: #F0F2F5; border-radius: 10px; } "
+                                         "QPushButton:pressed { background-color: #E4E7EB; } ")
         self.go_to_booking.setFixedSize(250, 50)
         self.go_to_booking.clicked.connect(self.activate_booking_window)
 
         self.previous_button = QPushButton("Atrás")
         self.previous_button.setFont(QFont("...", 10))
-        self.previous_button.setStyleSheet("QPushButton { background-color: #232632; border-radius: 10px; } "
-                                           "QPushButton:pressed { background-color: #1c1f26; } ")
+        self.previous_button.setStyleSheet("QPushButton { background-color: #F0F2F5; border-radius: 10px; } "
+                                           "QPushButton:pressed { background-color: #E4E7EB; } ")
         self.previous_button.setFixedSize(150, 50)
         self.previous_button.clicked.connect(self.activate_previous_window)
 
@@ -117,17 +117,17 @@ class Consult(QMainWindow):
 
     # Programar los botones
     def activate_users_window(self):
-        self.users_window = Consult_Users(self)
+        self.users_window = Users(self)
         self.users_window.show()
         self.close()
 
     def activate_book_window(self):
-        self.book_window = Consult_Books(self)
+        self.book_window = Books(self)
         self.book_window.show()
         self.close()
 
     def activate_booking_window(self):
-        self.booking_window = Consult_Booking(self)
+        self.booking_window = Booking(self)
         self.booking_window.show()
         self.close()
 
