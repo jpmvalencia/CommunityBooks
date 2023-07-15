@@ -26,11 +26,11 @@ pip install pandas
 Se recomienda la creación de un entorno virtual para la instalación de PyQt5 y pandas.
 
 ## Capturas de Pantalla
-![login.py](https://github.com/jpmvalencia/CommunityBooks/assets/129212252/ad7e47f7-a939-4bfd-adae-d55749d3a676)
-![createconsult.py](https://github.com/jpmvalencia/CommunityBooks/assets/129212252/bb6f7919-c4b7-45d7-9a60-9e585836b580)
-![create.py](https://github.com/jpmvalencia/CommunityBooks/assets/129212252/538a36c9-cfe8-484c-a571-2ee849e2bce0)
-![books.py](https://github.com/jpmvalencia/CommunityBooks/assets/129212252/8611401d-bc83-42d5-b575-79bbe81132e6)
-![booking.py](https://github.com/jpmvalencia/CommunityBooks/assets/129212252/8337264e-9499-464f-b2af-bc60358ffd47)
-![consult.py](https://github.com/jpmvalencia/CommunityBooks/assets/129212252/89c12e9a-481f-4224-aef7-d265342d50a4)
-![consultbooks.py](https://github.com/jpmvalencia/CommunityBooks/assets/129212252/fd771044-171b-4679-8d93-c5c7e013d04c)
-![consultbooking.py](https://github.com/jpmvalencia/CommunityBooks/assets/129212252/07e94879-2296-4e14-81fc-e97e80218cc3)
+![login.py](https://github.com/jpmvalencia/CommunityBooks/assets/129212252/7f9e2b4e-15c2-460c-9794-719167419431)
+![option.py](https://github.com/jpmvalencia/CommunityBooks/assets/129212252/a35ea324-2ef9-480e-9690-2c9fd9ea87a5)
+![users.py](https://github.com/jpmvalencia/CommunityBooks/assets/129212252/6168e2da-71fc-46f6-8b1e-b7f049bb03df)
+![books.py](https://github.com/jpmvalencia/CommunityBooks/assets/129212252/15cb58a8-9c20-46d1-85f3-b7ba268b2e1c)
+![booking.py](https://github.com/jpmvalencia/CommunityBooks/assets/129212252/32c87f7a-225d-4e1e-b222-cb8d35ac25e7)
+![consultusers.py](https://github.com/jpmvalencia/CommunityBooks/assets/129212252/ca52c70c-9c30-481b-a0a2-8b2de475228e)
+![consultbooks.py](https://github.com/jpmvalencia/CommunityBooks/assets/129212252/ecf7b0a1-bbb8-4309-8aea-11ef6d198f3e)
+![consultbooking.py](https://github.com/jpmvalencia/CommunityBooks/assets/129212252/336ebefe-d7b0-44a1-8ae2-fa1f2e98ddc7)
